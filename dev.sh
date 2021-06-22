@@ -93,13 +93,21 @@ start() {
   # provided by the secrets. Once the database comes up fully, the server is started. The server helm chart has a
   # pre-install hook that runs ./dev manage migrate, to make sure that the database has been fully set up before
   # running the server.
-
+  
+  # Note, this version assumes that you have installed the latest helm 3.6.1
+  # microk8s disable helm3`
+  #  `sudo snap install helm --classic`
+  # (`sudo mkdir /var/snap/microk8s/current/bin`)
+  #  `sudo ln -s /snap/bin/helm /var/snap/microk8s/current/bin/helm`
+  # If not working:
+  # `kubectl config view --raw >~/.kube/config`
+  
   echo "Setting up Secrets"
-  microk8s.helm3 install development-secrets deploy/helm/development-secrets/ \
+  microk8s.helm install development-secrets deploy/helm/development-secrets/ \
                -n development --create-namespace
 
   echo "Installing database"
-  microk8s.helm3 install development-db deploy/helm/development-db/ \
+  microk8s.helm install development-db deploy/helm/development-db/ \
                -n development --create-namespace
 
   echo "Wait for database to be ready"
@@ -108,7 +116,7 @@ start() {
   microk8s.kubectl -n development wait --for=condition=ready pod -l app=postgres
 
   echo "Installing server"
-  microk8s.helm3 install development-app deploy/helm/development-app/ \
+  microk8s.helm install development-app deploy/helm/development-app/ \
                -n development --create-namespace \
                --set projectDir="${PROJECT_ROOT}" \
                --set imagePullPolicy=Always \
@@ -121,7 +129,7 @@ start() {
 }
 
 stop() {
-  microk8s.helm3 -n development uninstall development-secrets development-db development-app
+  microk8s.helm -n development uninstall development-secrets development-db development-app
 }
 
 status() {
