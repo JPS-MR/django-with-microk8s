@@ -158,7 +158,7 @@ server_exec() {
 
 interactive_exec() {
   local name
-  name="$(kubectl -n development get pods --selector=tier=server  --no-headers -o custom-columns=":metadata.name")"
+  name="$(microk8s kubectl -n development get pods --selector=tier=server  --no-headers -o custom-columns=":metadata.name")"
   microk8s.kubectl -n development exec -it "${name}" -- "$@"
 }
 
