@@ -5,7 +5,7 @@ PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 REQUIRED_ADDONS=(
   'dns'
-  'helm3'
+  'helm'
   'host-access'
   'ingress'
   'registry'
