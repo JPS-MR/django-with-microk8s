@@ -84,8 +84,8 @@ start() {
   sudo docker build -t server:development-server -f deploy/docker/development-server/Dockerfile .
 
   echo "Pushing image to registry"
-  docker tag server:development-server localhost:32000/server:development-server
-  docker push localhost:32000/server:development-server
+  sudo docker tag server:development-server localhost:32000/server:development-server
+  sudo docker push localhost:32000/server:development-server
 
 
   # Behind the scenes, this script uses helm3 to install all 3 of the needed helm charts. Each chart is required for
