@@ -81,7 +81,7 @@ start() {
   done
 
   echo "Build image"
-  docker build -t server:development-server -f deploy/docker/development-server/Dockerfile .
+  sudo docker build -t server:development-server -f deploy/docker/development-server/Dockerfile .
 
   echo "Pushing image to registry"
   docker tag server:development-server localhost:32000/server:development-server
